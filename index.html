@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #start-screen-content {
+            background-color: white;
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #main-game {
+            display: none;
+        }
+
+        #video1 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        #button {
+            position: absolute;
+            padding: 15px 30px;
+            background: #ff0000;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #video2 {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <title>Catch it!</title>
+</head>
+<body>
+<div id="start-screen">
+    <div id="start-screen-content">
+        <h1>Get Ready!</h1>
+        <p>Click anywhere to start</p>
+    </div>
+</div>
+
+<div id="main-game">
+    <video id="video1" width="400">
+        <source src="Worst Project - Video1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <button id="button">Click Here</button>
+</div>
+
+<div id="final-video">
+    <video id="video2">
+        <source src="Worst Project - Video2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<script>
+    const startScreen = document.getElementById('start-screen');
+    const mainGame = document.getElementById('main-game');
+    const button = document.getElementById('button');
+    const video1 = document.getElementById('video1');
+    const video2 = document.getElementById('video2');
+    const finalVideo = document.getElementById('final-video');
+    let isFirstHover = true;
+    let isButtonMovable = true;
+
+    // Click anywhere to start
+    startScreen.addEventListener('click', function() {
+        startScreen.style.display = 'none';
+        mainGame.style.display = 'block';
+    });
+
+    // Function to stop button movement after a set time
+    function disableButtonMovement() {
+        isButtonMovable = false;
+        button.style.cursor = 'pointer'; // Change cursor to indicate clickability
+    }
+
+    button.addEventListener('mouseover', function() {
+        // Show and play video only on first hover
+        if (isFirstHover) {
+            video1.style.display = 'block';
+            video1.play().catch(error => {
+                console.error("Error playing video:", error);
+            });
+            isFirstHover = false;
+            button.textContent = 'Try and catch me!';
+
+            // Start timer to disable button movement after 17 seconds
+            setTimeout(disableButtonMovement, 17000);
+        }
+
+        // Only move button if it's still movable
+        if (isButtonMovable) {
+            // Random position for button
+            const maxX = window.innerWidth - button.offsetWidth;
+            const maxY = window.innerHeight - button.offsetHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+        }
+    });
+
+    button.addEventListener('click', function() {
+        // Hide start screen and main game
+        startScreen.style.display = 'none';
+        mainGame.style.display = 'none';
+
+        // Show final video
+        finalVideo.style.display = 'block';
+        video2.style.display = 'block';
+
+        // Play second video
+        video2.play().catch(error => {
+            console.error("Error playing video:", error);
+        });
+    });
+</script>
+</body>
+</html>
