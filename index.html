@@ -50,6 +50,7 @@
             cursor: pointer;
             border: none;
             border-radius: 5px;
+            z-index: 1;
         }
 
         #video2 {
@@ -60,6 +61,20 @@
             position: fixed;
             top: 0;
             left: 0;
+        }
+
+        #granolaBar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60%; /* Reduced to 60% of its original size */
+            max-width: 200px; /* Optional: prevent it from becoming too large */
+            height: auto;  /* Let height adjust based on content */
+        }
+
+        #granolaBar img {
+            width: 100%; /* Ensure the image fills the div width */
+            height: auto; /* Maintain aspect ratio */
         }
     </style>
     <title>Catch it!</title>
@@ -79,6 +94,10 @@
     </video>
 
     <button id="button">Click Here</button>
+    <div id="granolaBar">
+        <img src="granolaBar.jpg" alt="Granola Bar">
+        <p id="granolaText">Granola Bar</p>
+    </div>
 </div>
 
 <div id="final-video">
